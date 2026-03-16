@@ -3,7 +3,8 @@ import { useState } from 'react'
 export default function BrandingInputs({ companyName, setCompanyName, colors, setColors }) {
   const addColor = () => {
     if (colors.length < 5) {
-      setColors([...colors, '#3366cc'])
+      const randomHex = '#' + Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0')
+      setColors([...colors, randomHex])
     }
   }
 

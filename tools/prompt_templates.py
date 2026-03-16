@@ -84,14 +84,33 @@ def build_prompt(
             "Incorporate its key visual elements, shapes, or concept into a polished, professional logo.\n"
         )
 
+    # Build per-color usage instructions
+    color_roles = []
+    for i, c in enumerate(colors):
+        desc = _color_description(c)
+        if i == 0:
+            color_roles.append(f"  - PRIMARY color: {desc} — use this as the dominant color for the main icon/symbol and the company name text")
+        elif i == 1:
+            color_roles.append(f"  - SECONDARY color: {desc} — use this as an accent color for secondary elements, outlines, or highlights")
+        else:
+            color_roles.append(f"  - ACCENT color: {desc} — use this for small details or additional accents")
+    color_instructions = "\n".join(color_roles)
+
     prompt = f"""Design a professional, clean logo for a company called "{company_name}".
 
-Brand colors (use ONLY these colors in the design): {color_list}
+CRITICAL COLOR REQUIREMENTS — This is the most important instruction:
+The logo MUST prominently feature these exact brand colors. Every visible element must use one of these colors:
+{color_instructions}
 
-Style requirements:
+Do NOT use any colors outside of these brand colors (except for the background).
+The primary brand color must be clearly visible and dominant in the final logo.
+If a color looks different from what is specified, adjust it to match exactly.
+
+Design requirements:
 - Professional, modern logo suitable for business use
 - Clean, flat, vector-style design (no photorealism, no gradients, no complex textures)
 - The company name "{company_name}" MUST appear as legible text in the logo — spell it exactly
+- The company name text should be rendered in one of the brand colors listed above
 - Simple, scalable design that works at any size
 - {bg_instruction}
 - {format_instruction}
