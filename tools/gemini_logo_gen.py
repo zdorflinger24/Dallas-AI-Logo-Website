@@ -11,7 +11,10 @@ from google import genai
 from google.genai import types
 from PIL import Image
 
-from prompt_templates import build_prompt
+try:
+    from tools.prompt_templates import build_prompt
+except ImportError:
+    from prompt_templates import build_prompt
 
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
